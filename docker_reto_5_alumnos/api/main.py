@@ -1,7 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, abort
 import pymysql
+from data_loader import cargar_excel
 
 app = Flask(__name__)
+
+clientes = cargar_excel()
 
 
 def get_connection():
@@ -14,11 +17,20 @@ def get_connection():
     )
 
 
+
 @app.get("/")
 def inicio():
     return {
         "mensaje": "API funcionando"
     }
+
+
+@app.get("/clientes/<id>")
+def obtener_cliente(id):
+    cliente = next((c for c in clientes if c["ID"] == id), None)
+    if cliente is None:
+        abort(404, description="Cliente no encontrado")
+    return jsonify(cliente)
 
 
 @app.get("/clientes")
