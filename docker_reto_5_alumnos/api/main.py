@@ -119,17 +119,44 @@ def clientes_por_jornada(jornada):
 
     return jsonify(clientes)
 
+@app.delete("/clientes/<id>")
+def eliminar_cliente(id):
+    conexion = get_connection()
+    try:
+        with conexion.cursor() as cursor:
+            cursor.execute("SELECT * FROM clientes_credito WHERE ID=%s", (id,))
+            cliente = cursor.fetchone()
+            if cliente is None:
+                abort(404, description="Cliente no encontrado")
+            
+            cursor.execute("DELETE FROM clientes_credito WHERE ID=%s", (id,))
+            conexion.commit()
+    finally:
+        conexion.close()
+        
+    return jsonify({"mensaje": f"Cliente con ID {id} eliminado exitosamente"})
 
 
-@app.get("/edad-aleatoria")
-def edad_aleatoria():
-    nombre = request.args.get("name", "pablo")
+
+@app.get("/convertir-monto/<float:monto>")
+def convertir_monto(monto):
+    moneda_destino = request.args.get("to", "USD")
+    url = "https://open.er-api.v6/latest/EUR"
     
-    respuesta = requests.get(
-        f"https://api.agify.io/?name={nombre}"
-    )
-
-    return respuesta.json()
+    respuesta = requests.get(url)
+    datos = respuesta.json()
+    
+    if "rates" in datos and moneda_destino in datos["rates"]:
+        tasa = datos["rates"][moneda_destino]
+        monto_convertido = monto * tasa
+        return {
+            "monto_original_eur": monto,
+            "moneda_destino": moneda_destino,
+            "tasa_aplicada": tasa,
+            "monto_convertido": round(monto_convertido, 2)
+        }
+    
+    return {"error": "No se pudo realizar la conversión"}, 400
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8000, debug=True)
