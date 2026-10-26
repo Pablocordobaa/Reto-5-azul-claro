@@ -166,6 +166,93 @@ def clientes_por_impago(impago):
 
     return jsonify(clientes)
 
+@app.get("/clientes/ingresos/<float:ingresos_min>")
+def clientes_por_ingresos_min(ingresos_min):
+    conexion = get_connection()
+    try:
+        with conexion.cursor() as cursor:
+            cursor.execute(
+                "SELECT * FROM clientes_credito WHERE Ingresos >= %s LIMIT 100",
+                (ingresos_min,)
+            )
+            clientes = cursor.fetchall()
+    finally:
+        conexion.close()
+
+    return jsonify(clientes), 200
+
+@app.post("/clientes")
+def crear_cliente():
+    datos = request.get_json(silent=True)
+    
+    if datos is None:
+        abort(400, description="El cuerpo de la petición debe ser un JSON ")
+    campos_obligatorios = ["ID", "Estudios", "Estado_Civil", "Proposito", "Tipo_Jornada_Laboral", "Ingresos", "Impago"]
+
+    for campo in campos_obligatorios:
+        if campo not in datos:
+            abort(400, description=f"Falta el campo obligatorio: {campo}")
+
+    conexion = get_connection()
+    try:
+        with conexion.cursor() as cursor:
+            cursor.execute("SELECT ID FROM clientes_credito WHERE ID = %s", (datos["ID"],))
+            if cursor.fetchone():
+                abort(409, description=f"El cliente con ID {datos['ID']} ya existe")
+            query = """
+                INSERT INTO clientes_credito 
+                (ID, Estudios, Estado_Civil, Proposito, Tipo_Jornada_Laboral, Ingresos, Impago)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (
+                datos["ID"], 
+                datos["Estudios"], 
+                datos["Estado_Civil"], 
+                datos["Proposito"], 
+                datos["Tipo_Jornada_Laboral"], 
+                datos["Ingresos"], 
+                datos["Impago"]
+            ))
+            conexion.commit()
+    finally:
+        conexion.close()
+
+    return jsonify(datos), 201
+
+@app.patch("/clientes/<id>")
+def modificar_cliente(id):
+    datos = request.get_json(silent=True)
+    if datos is None:
+        abort(400, description="El cuerpo de la petición debe ser un JSON válido")
+
+    conexion = get_connection()
+    try:
+        with conexion.cursor() as cursor:
+            cursor.execute("SELECT * FROM clientes_credito WHERE ID = %s", (id,))
+            cliente = cursor.fetchone()
+            if not cliente:
+                abort(404, description=f"Cliente con ID {id} no encontrado")
+
+            estudios = datos.get("Estudios", cliente.get("Estudios"))
+            estado_civil = datos.get("Estado_Civil", cliente.get("Estado_Civil"))
+            proposito = datos.get("Proposito", cliente.get("Proposito"))
+            jornada = datos.get("Tipo_Jornada_Laboral", cliente.get("Tipo_Jornada_Laboral"))
+            ingresos = datos.get("Ingresos", cliente.get("Ingresos"))
+            impago = datos.get("Impago", cliente.get("Impago"))
+
+            query = """
+                UPDATE clientes_credito 
+                SET Estudios = %s, Estado_Civil = %s, Proposito = %s, 
+                    Tipo_Jornada_Laboral = %s, Ingresos = %s, Impago = %s
+                WHERE ID = %s
+            """
+            cursor.execute(query, (estudios, estado_civil, proposito, jornada, ingresos, impago, id))
+            conexion.commit()
+    finally:
+        conexion.close()
+
+    return jsonify({"mensaje": f"Cliente con ID {id} modificado exitosamente"}), 200
+
 @app.delete("/clientes/<id>")
 def eliminar_cliente(id):
     conexion = get_connection()

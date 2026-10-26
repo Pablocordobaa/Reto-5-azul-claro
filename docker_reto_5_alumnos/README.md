@@ -66,3 +66,6 @@ docker compose down -v
 ```
 
 la base de datos se volverá a generar a partir del fichero de datos en el siguiente arranque.
+
+## Endpoints
+
