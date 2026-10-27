@@ -186,7 +186,7 @@ def crear_cliente():
     datos = request.get_json(silent=True)
     
     if datos is None:
-        abort(400, description="El cuerpo de la petición debe ser un JSON ")
+        abort(400, description="Datos de entrada incorrectos, debe ser un JSON valido")
     campos_obligatorios = ["ID", "Estudios", "Estado_Civil", "Proposito", "Tipo_Jornada_Laboral", "Ingresos", "Impago"]
 
     for campo in campos_obligatorios:
@@ -223,15 +223,14 @@ def crear_cliente():
 def modificar_cliente(id):
     datos = request.get_json(silent=True)
     if datos is None:
-        abort(400, description="El cuerpo de la petición debe ser un JSON válido")
-
+        abort(400, description="Datos de entrada incorrectos, debe ser un JSON valido")
     conexion = get_connection()
     try:
         with conexion.cursor() as cursor:
             cursor.execute("SELECT * FROM clientes_credito WHERE ID = %s", (id,))
             cliente = cursor.fetchone()
             if not cliente:
-                abort(404, description=f"Cliente con ID {id} no encontrado")
+                abort(404, description=f"Cliente {id} no encontrado")
 
             estudios = datos.get("Estudios", cliente.get("Estudios"))
             estado_civil = datos.get("Estado_Civil", cliente.get("Estado_Civil"))
@@ -251,7 +250,7 @@ def modificar_cliente(id):
     finally:
         conexion.close()
 
-    return jsonify({"mensaje": f"Cliente con ID {id} modificado exitosamente"}), 200
+    return jsonify({"mensaje": f"Cliente {id} modificado correctamente"}), 200
 
 @app.delete("/clientes/<id>")
 def eliminar_cliente(id):
@@ -262,13 +261,12 @@ def eliminar_cliente(id):
             cliente = cursor.fetchone()
             if cliente is None:
                 abort(404, description="Cliente no encontrado")
-            
             cursor.execute("DELETE FROM clientes_credito WHERE ID=%s", (id,))
             conexion.commit()
     finally:
         conexion.close()
         
-    return jsonify({"mensaje": f"Cliente con ID {id} eliminado exitosamente"})
+    return jsonify({"mensaje": f"Cliente {id} eliminado correctamente"})
 
 @app.get("/creditos/indicadores-macro")
 def obtener_indicadores_macro():
