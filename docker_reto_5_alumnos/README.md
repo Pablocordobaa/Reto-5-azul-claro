@@ -68,6 +68,7 @@ docker compose down -v
 la base de datos se volverá a generar a partir del fichero de datos en el siguiente arranque.
 
 ## Endpoints
+### / (get)
 ```json
 paths:
   /:
@@ -87,7 +88,9 @@ paths:
                   mensaje:
                     type: string
                     example: API funcionando
-
+```
+### /clientes (get)
+```json
   /clientes:
    get:
     summary: Obtener clientes
@@ -159,7 +162,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### /clientes/buscar (get)
+```json
   /clientes/buscar:
    get:
     summary: Buscar clientes
@@ -243,7 +248,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### /clientes/estado-civil/<estado> (get)
+```json
   /clientes/estado-civil/<estado>:
    get:
     summary: Obtener clientes por estado civil
@@ -321,7 +328,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### /clientes/proposito/<proposito> (get)
+```json
   /clientes/proposito/<proposito>
    get:
     summary: Obtener clientes por proposito
@@ -399,7 +408,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### clientes/jornada/<jornada> (get)
+```json
   /clientes/jornada/<jornada>
    get:
     summary: Obtener clientes por jornada
@@ -477,7 +488,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### clientes/impago/<int:impago> (get)
+```json
   /clientes/impago/<int:impago>
    get:
     summary: Obtener clientes por impago
@@ -555,7 +568,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
+```
+### /clientes/ingresos/<float:ingresos_min> (get)
+```json
   /clientes/ingresos/<float:ingresos_min>
    get:
     summary: Obtener clientes por ingresos mínimos
@@ -634,86 +649,9 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-
-  /clientes/ingresos/<float:ingresos_min>
-   get:
-    summary: Obtener clientes por ingresos mínimos
-    description: Permite filtrar clientes según su mínimo de ingresos.
-    parameters: 
-     - name: ingresos_min
-       in: path
-       required: true
-       schema:
-        type: number
-        format: float
-       example: 44800
-    requestBody: no hay
-    responses: 
-        '200':
-          description: Consulta realizada correctamente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ID:
-                   type: string
-                   example: FRMZVN
-                  Edad:
-                   type: integer
-                   example: 35
-                  Ingresos:
-                   type: number
-                   example: 44800
-                  Monto_Inicial:
-                   type: number
-                   example: 63406
-                  Scoring_Crediticio:
-                   type: integer
-                   example: 826
-                  Meses_Empleo:
-                   type: integer
-                   example: 154
-                  Num_Creditos:
-                   type: integer
-                   example: 2
-                  Ratio_Interes:
-                   type: number
-                   example: 6,18
-                  Duracion:
-                   type: integer
-                   example: 36
-                  Ratio_Deuda_Ingresos:
-                   type: number
-                   example: 0.28
-                  Estudios:
-                   type: string
-                   example: Máster
-                  Tipo_Jornada_Laboral:
-                   type: string
-                   example: Jornada completa
-                  Estado_Civil:
-                   type: string
-                   example: Casado
-                  Posesion_Hipoteca:
-                   type: integer
-                   example: 1
-                  Personas_Cargo:
-                   type: integer
-                   example: 0
-                  Proposito:
-                   type: string
-                   example: Vivienda
-                  Fiador:
-                   type: integer
-                   example: 0
-                  Impago:
-                   type: integer
-                   example: 1
-                  Prima:
-                   type: number
-                   example: 431,25
-
+```
+### clientes (post)
+```json
   /clientes:
    post:
     summary: Crear cliente
@@ -761,7 +699,9 @@ paths:
         description: Datos de entrada incorrectos
       '409':
         description: El cliente ya existe
-
+```
+### /clientes/<id> (patch)
+```json
   /clientes/<id>:
     patch:
      summary: Actualizar cliente
@@ -805,7 +745,9 @@ paths:
           description: Datos de entrada incorrectos
          '404':
           description: Cliente no encontrado
-
+```
+### /clientes/<id> (delete)
+```json
   /clientes/<id>:
     delete:
      summary: Eliminar cliente
@@ -823,7 +765,9 @@ paths:
           description: Cliente eliminado correctamente
          '404':
           description: Cliente no encontrado
-
+```
+### /cambio_moneda (get)
+```json
   /cambio_moneda:
     get:
      summary: Obtiene tipo de cambio
