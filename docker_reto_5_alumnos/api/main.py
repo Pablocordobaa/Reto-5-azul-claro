@@ -282,18 +282,18 @@ def obtener_indicadores_macro():
         else:
             print("Error")   
         return {
-            "estado":"exitoso",
-            "fuente_externa": "Exchange Rate API",
-            "moneda_base": datos.get("base"),
-            "fecha_actualizacion": datos.get("date"),
-            "indicadores_clave": {
+            "Resultado":"exitoso",
+            "Api_externa":"Exchange Rate API",
+            "moneda_base":datos.get("base"),
+            "fecha_actualizacion":datos.get("date"),
+            "indicadores_clave":{
                 "USD": datos.get("rates", {}).get("USD"),
                 "GBP": datos.get("rates", {}).get("GBP"),
                 "CHF": datos.get("rates", {}).get("CHF")
             }
         }, 200
     except requests.RequestException:
-        abort(503, description="No se pudo obtener la información de la API externa de datos económicos")
+        abort(503, description="No se pudo obtener la información de la API externa de cambio de moneda")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
