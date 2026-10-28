@@ -78,7 +78,7 @@ def obtener_clientes():
     conexion = get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute("SELECT * FROM clientes_credito LIMIT 100")
+            cursor.execute("SELECT * FROM clientes_credito")
             clientes = cursor.fetchall()
     finally:
         conexion.close()
@@ -94,11 +94,11 @@ def buscar_clientes():
     try:
         with conexion.cursor() as cursor:
             if cliente_id:
-                cursor.execute("SELECT * FROM clientes_credito WHERE ID LIKE %s LIMIT 100", (f"%{cliente_id}%",))
+                cursor.execute("SELECT * FROM clientes_credito WHERE ID LIKE %s", (f"%{cliente_id}%",))
             elif estudios:
-                cursor.execute("SELECT * FROM clientes_credito WHERE Estudios = %s LIMIT 100", (estudios,))
+                cursor.execute("SELECT * FROM clientes_credito WHERE Estudios = %s", (estudios,))
             else:
-                cursor.execute("SELECT * FROM clientes_credito LIMIT 100")
+                cursor.execute("SELECT * FROM clientes_credito")
             clientes = cursor.fetchall()
     finally:
         conexion.close()
@@ -112,7 +112,7 @@ def clientes_estado_civil(estado):
     try:
         with conexion.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM clientes_credito WHERE Estado_Civil=%s LIMIT 100",
+                "SELECT * FROM clientes_credito WHERE Estado_Civil=%s",
                 (estado,)
             )
             clientes = cursor.fetchall()
@@ -127,7 +127,7 @@ def clientes_proposito(proposito):
     try:
         with conexion.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM clientes_credito WHERE Proposito=%s LIMIT 100",
+                "SELECT * FROM clientes_credito WHERE Proposito=%s",
                 (proposito,)
             )
             clientes = cursor.fetchall()
@@ -142,7 +142,7 @@ def clientes_por_jornada(jornada):
     try:
         with conexion.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM clientes_credito WHERE Tipo_Jornada_Laboral=%s LIMIT 100",
+                "SELECT * FROM clientes_credito WHERE Tipo_Jornada_Laboral=%s",
                 (jornada,)
             )
             clientes = cursor.fetchall()
@@ -157,7 +157,7 @@ def clientes_por_impago(impago):
     try:
         with conexion.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM clientes_credito WHERE Impago = %s LIMIT 100",
+                "SELECT * FROM clientes_credito WHERE Impago = %s",
                 (impago,)
             )
             clientes = cursor.fetchall()
@@ -172,7 +172,7 @@ def clientes_por_ingresos_min(ingresos_min):
     try:
         with conexion.cursor() as cursor:
             cursor.execute(
-                "SELECT * FROM clientes_credito WHERE Ingresos >= %s LIMIT 100",
+                "SELECT * FROM clientes_credito WHERE Ingresos >= %s",
                 (ingresos_min,)
             )
             clientes = cursor.fetchall()
