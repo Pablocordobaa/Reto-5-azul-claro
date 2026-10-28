@@ -268,7 +268,7 @@ def eliminar_cliente(id):
         
     return jsonify({"mensaje": f"Cliente {id} eliminado correctamente"})
 
-@app.get("/creditos/indicadores-macro")
+@app.get("/cambio_moneda")
 def obtener_indicadores_macro():
     url = "https://api.exchangerate-api.com/v4/latest/EUR"
     try:
