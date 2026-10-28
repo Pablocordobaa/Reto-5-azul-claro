@@ -70,9 +70,9 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
 ## Endpoints
 ### / (get)
 ```json
-paths:
-  /:
-   get:
+{
+/:
+  get:
     summary: Comprobar que funciona la API
     description: Comprueba que la API funciona correctamente
     parameters: no hay
@@ -88,11 +88,12 @@ paths:
                   mensaje:
                     type: string
                     example: API funcionando
+}
 ```
 ### /clientes (get)
 ```json
-  /clientes:
-   get:
+/clientes:
+  get:
     summary: Obtener clientes
     description: Obtiene una lista de 100 clientes almacenados en la base de datos
     parameters: no hay
@@ -165,8 +166,8 @@ paths:
 ```
 ### /clientes/buscar (get)
 ```json
-  /clientes/buscar:
-   get:
+/clientes/buscar:
+ get:
     summary: Buscar clientes
     description: Permite filtrar por ID o Estudios
     parameters: 
@@ -251,8 +252,8 @@ paths:
 ```
 ### /clientes/estado-civil/<estado> (get)
 ```json
-  /clientes/estado-civil/<estado>:
-   get:
+/clientes/estado-civil/<estado>:
+  get:
     summary: Obtener clientes por estado civil
     description: Permite filtrar clientes según su estado civil.
     parameters: 
@@ -331,8 +332,8 @@ paths:
 ```
 ### /clientes/proposito/<proposito> (get)
 ```json
-  /clientes/proposito/<proposito>
-   get:
+/clientes/proposito/<proposito>
+  get:
     summary: Obtener clientes por proposito
     description: Permite filtrar clientes según su proposito.
     parameters: 
@@ -342,7 +343,7 @@ paths:
        schema:
         type: string
        example: Vivienda
-    rquestBody: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -411,8 +412,8 @@ paths:
 ```
 ### clientes/jornada/<jornada> (get)
 ```json
-  /clientes/jornada/<jornada>
-   get:
+/clientes/jornada/<jornada>
+  get:
     summary: Obtener clientes por jornada
     description: Permite filtrar clientes según su jornada laboral.
     parameters: 
@@ -422,7 +423,7 @@ paths:
        schema:
         type: string
        example: Jornada completa
-    rquestBody: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -491,8 +492,8 @@ paths:
 ```
 ### clientes/impago/<int:impago> (get)
 ```json
-  /clientes/impago/<int:impago>
-   get:
+/clientes/impago/<int:impago>
+  get:
     summary: Obtener clientes por impago
     description: Permite filtrar clientes según si ha pagado o no.
     parameters: 
@@ -571,8 +572,8 @@ paths:
 ```
 ### /clientes/ingresos/<float:ingresos_min> (get)
 ```json
-  /clientes/ingresos/<float:ingresos_min>
-   get:
+/clientes/ingresos/<float:ingresos_min>
+  get:
     summary: Obtener clientes por ingresos mínimos
     description: Permite filtrar clientes según su mínimo de ingresos.
     parameters: 
@@ -652,8 +653,8 @@ paths:
 ```
 ### clientes (post)
 ```json
-  /clientes:
-   post:
+/clientes:
+  post:
     summary: Crear cliente
     description: Crea un nuevo cliente en la base de datos.
     requestBody:
@@ -702,8 +703,8 @@ paths:
 ```
 ### /clientes/<id> (patch)
 ```json
-  /clientes/<id>:
-    patch:
+/clientes/<id>:
+  patch:
      summary: Actualizar cliente
      description: Modifica los datos de un cliente existente.
      parameters: 
@@ -748,8 +749,8 @@ paths:
 ```
 ### /clientes/<id> (delete)
 ```json
-  /clientes/<id>:
-    delete:
+/clientes/<id>:
+  delete:
      summary: Eliminar cliente
      description: Borra un cliente de la base de datos a partir de su ID.
      parameters: 
@@ -768,8 +769,8 @@ paths:
 ```
 ### /cambio_moneda (get)
 ```json
-  /cambio_moneda:
-    get:
+/cambio_moneda:
+  get:
      summary: Obtiene tipo de cambio
      description: Utiliza una API externa para obtener las tasas de cambio actuales respecto al Euro.
      parameters: no hay
