@@ -70,23 +70,25 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
 ## Endpoints
 ### / (get)
 ```json
-/:
-  get:
-    summary: Comprobar que funciona la API
-    description: Comprueba que la API funciona correctamente
-    parameters: no hay
-    rquestBody: no hay
-    responses: 
+{
+"/":
+  "get":
+    "summary": "Comprobar que funciona la API"
+    "description": "Comprueba que la API funciona correctamente"
+    "parameters": "no hay"
+    "requestBody": "no hay"
+    "responses": 
         '200':
-          description: API operativa
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  mensaje:
-                    type: string
-                    example: API funcionando
+          "description": "API operativa"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "mensaje":
+                    "type": "string"
+                    "example": "API funcionando"
+}
 ```
 ### /clientes (get)
 ```json
