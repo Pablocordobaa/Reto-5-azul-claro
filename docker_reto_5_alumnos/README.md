@@ -68,6 +68,7 @@ docker compose down -v
 la base de datos se volverá a generar a partir del fichero de datos en el siguiente arranque.
 
 ## Endpoints
+```json
 paths:
   /:
    get:
@@ -242,6 +243,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/estado-civil/<estado>:
    get:
     summary: Obtener clientes por estado civil
@@ -319,6 +321,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/proposito/<proposito>
    get:
     summary: Obtener clientes por proposito
@@ -396,6 +399,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/jornada/<jornada>
    get:
     summary: Obtener clientes por jornada
@@ -473,6 +477,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/impago/<int:impago>
    get:
     summary: Obtener clientes por impago
@@ -550,6 +555,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/ingresos/<float:ingresos_min>
    get:
     summary: Obtener clientes por ingresos mínimos
@@ -628,6 +634,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes/ingresos/<float:ingresos_min>
    get:
     summary: Obtener clientes por ingresos mínimos
@@ -706,6 +713,7 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
+
   /clientes:
    post:
     summary: Crear cliente
@@ -727,31 +735,189 @@ paths:
             properties:
               ID:
                 type: string
-                example: A500
+                example: 4UO7DJ
               Estudios:
                 type: string
-                example: Universitarios
+                example: Grado Universitario
               Estado_Civil:
                 type: string
                 example: Soltero
               Proposito:
                 type: string
-                example: Coche
+                example: Negocios
               Tipo_Jornada_Laboral:
                 type: string
-                example: Completa
+                example: Tiempo parcial
               Ingresos:
                 type: number
-                example: 3000
+                example: 34325
               Impago:
                 type: integer
                 example: 0
     responses:
       '201':
         description: Cliente creado correctamente
-
       '400':
         description: Datos de entrada incorrectos
-
       '409':
         description: El cliente ya existe
+
+  /clientes/<id>:
+    patch:
+     summary: Actualizar cliente
+     description: Modifica los datos de un cliente existente.
+     parameters: 
+      - name: ID
+        in: path
+        required: true
+        schema:
+         type: string
+        example: 7XD0MJ
+     requestBody:
+      required: true
+      content:
+       application/json:
+        schema:
+         type: object
+         properties:
+          Estudios:
+           type: string
+           example: Doctorado
+          Estado_Civil:
+           type: string
+           example: Soltero
+          Proposito:
+           type: string
+           example: Educación
+          Tipo_Jornada_Laboral:
+           type: string
+           example: Autónomo
+          Ingresos:
+           type: number
+           example: 63033
+          Impago:
+           type: integer
+           example: 1
+     responses:
+         '200':
+          description: Cliente modificado correctamente
+         '400':
+          description: Datos de entrada incorrectos
+         '404':
+          description: Cliente no encontrado
+
+  /clientes/<id>:
+    delete:
+     summary: Eliminar cliente
+     description: Borra un cliente de la base de datos a partir de su ID.
+     parameters: 
+      - name: id
+        in: path
+        required: true
+        schema:
+         type: string
+        example: 98XK3H
+     requestBody: no hay
+     responses:
+         '200':
+          description: Cliente eliminado correctamente
+         '404':
+          description: Cliente no encontrado
+
+  /cambio_moneda:
+    get:
+     summary: Obtiene tipo de cambio
+     description: Utiliza una API externa para obtener las tasas de cambio actuales respecto al Euro.
+     parameters: no hay
+     requestBody: no hay
+     responses: 
+         '200':
+          description: Consulta a la API externa realizada con éxito
+          content:
+           application/json:
+            schema:
+             type: object
+             properties:
+              Resultado:
+               type: string
+               example: exitoso
+              Api_externa:
+               type: string
+               example: Exchange Rate API
+              moneda_base:
+               type: string
+               example: EUR
+              fecha_actualizacion:
+               type: string
+               example: 2026-03-30
+              indicadores_clave:
+               type: object
+               properties:
+                USD:
+                 type: number
+                 example: 1.08
+                GBP:
+                 type: number
+                 example: 0.85
+                CHF:
+                 type: number
+                 example: 0.97
+         '503':
+          description: No se pudo obtener la información de la API externa
+```
+## Gestión de errores
+Todas las respuestas de error de la API devuelven un objeto JSON con una estructura estándar que incluye el código de estado y un mensaje descriptivo:
+### Error 400 - Bad Request
+```json
+{
+  "error": {
+    "code": 400,
+    "message": "Datos de entrada incorrectos"
+  }
+}
+```
+### Error 404 - Not Found
+```json
+{
+  "error": {
+    "code": 404,
+    "message": "El recurso no existe"
+  }
+}
+```
+### Error 405 - Method Not Allowed
+```json
+{
+  "error": {
+    "code": 405,
+    "message": "Metodo no permitido"
+  }
+}
+```
+### Error 409 - Conflict
+```json
+{
+  "error": {
+    "code": 409,
+    "message": "Conflicto con el estado actual"
+  }
+}
+```
+### Error 415 - Unsupported Media Type
+```json
+{
+  "error": {
+    "code": 415,
+    "message": "Formato recibido no soportado"
+  }
+}
+```
+### Error 500 - Internal Server Error
+```json
+{
+  "error": {
+    "code": 500,
+    "message": "Error inesperado en el servidor"
+  }
+}
+```
