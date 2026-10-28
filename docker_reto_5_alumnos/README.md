@@ -174,13 +174,13 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Buscar clientes"
     "description": "Permite filtrar por ID o Estudios"
     "parameters":
-      - "name": "id"
+        "name": "id"
         "in": "query"
         "required": false
         "schema":
           "type": "string"
         "example": "YBJXM9"
-      - "name": "estudios"
+        "name": "estudios"
         "in": "query"
         "required": false
         "schema":
@@ -262,7 +262,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Obtener clientes por estado civil"
     "description": "Permite filtrar clientes según su estado civil."
     "parameters":
-      - "name": "estado"
+        "name": "estado"
         "in": "path"
         "required": true
         "schema":
@@ -344,7 +344,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Obtener clientes por proposito"
     "description": "Permite filtrar clientes según su proposito."
     "parameters":
-      - "name": "proposito"
+        "name": "proposito"
         "in": "path"
         "required": true
         "schema":
@@ -426,7 +426,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Obtener clientes por jornada"
     "description": "Permite filtrar clientes según su jornada laboral."
     "parameters":
-      - "name": "jornada"
+        "name": "jornada"
         "in": "path"
         "required": true
         "schema":
@@ -508,7 +508,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Obtener clientes por impago"
     "description": "Permite filtrar clientes según si ha pagado o no."
     "parameters":
-      - "name": "impago"
+        "name": "impago"
         "in": "path"
         "required": true
         "schema":
@@ -590,7 +590,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Obtener clientes por ingresos mínimos"
     "description": "Permite filtrar clientes según su mínimo de ingresos."
     "parameters":
-      - "name": "ingresos_min"
+        "name": "ingresos_min"
         "in": "path"
         "required": true
         "schema":
@@ -680,13 +680,13 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
           "schema":
             "type": "object"
             "required":
-              - "ID"
-              - "Estudios"
-              - "Estado_Civil"
-              - "Proposito"
-              - "Tipo_Jornada_Laboral"
-              - "Ingresos"
-              - "Impago"
+               "ID"
+               "Estudios"
+               "Estado_Civil"
+               "Proposito"
+               "Tipo_Jornada_Laboral"
+               "Ingresos"
+               "Impago"
             "properties":
               "ID":
                 "type": "string"
@@ -726,7 +726,7 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
     "summary": "Actualizar cliente"
     "description": "Modifica los datos de un cliente existente."
     "parameters":
-      - "name": "ID"
+        "name": "ID"
         "in": "path"
         "required": true
         "schema":
