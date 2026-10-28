@@ -74,7 +74,7 @@ paths:
     summary: Comprobar que funciona la API
     description: Comprueba que la API funciona correctamente
     parameters: no hay
-    body: no hay
+    rquestBody: no hay
     responses: 
         '200':
           description: API operativa
@@ -92,7 +92,7 @@ paths:
     summary: Obtener clientes
     description: Obtiene una lista de 100 clientes almacenados en la base de datos
     parameters: no hay
-    body: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -176,7 +176,7 @@ paths:
        schema:
         type: string
        example: Grado Universitario
-    body: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -253,7 +253,7 @@ paths:
        schema:
         type: string
        example: Casado
-    body: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -330,7 +330,7 @@ paths:
        schema:
         type: string
        example: Vivienda
-    body: no hay
+    rquestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -407,7 +407,7 @@ paths:
        schema:
         type: string
        example: Jornada completa
-    body: no hay
+    rquestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -482,9 +482,9 @@ paths:
        in: path
        required: true
        schema:
-        type: string
+        type: integer
        example: 1
-    body: no hay
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -555,13 +555,14 @@ paths:
     summary: Obtener clientes por ingresos mínimos
     description: Permite filtrar clientes según su mínimo de ingresos.
     parameters: 
-     - name: impago
+     - name: ingresos_min
        in: path
        required: true
        schema:
-        type: string
-       example: 1
-    body: no hay
+        type: number
+        format: float
+       example: 44800
+    requestBody: no hay
     responses: 
         '200':
           description: Consulta realizada correctamente
@@ -627,4 +628,130 @@ paths:
                   Prima:
                    type: number
                    example: 431,25
-  
+  /clientes/ingresos/<float:ingresos_min>
+   get:
+    summary: Obtener clientes por ingresos mínimos
+    description: Permite filtrar clientes según su mínimo de ingresos.
+    parameters: 
+     - name: ingresos_min
+       in: path
+       required: true
+       schema:
+        type: number
+        format: float
+       example: 44800
+    requestBody: no hay
+    responses: 
+        '200':
+          description: Consulta realizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                   type: string
+                   example: FRMZVN
+                  Edad:
+                   type: integer
+                   example: 35
+                  Ingresos:
+                   type: number
+                   example: 44800
+                  Monto_Inicial:
+                   type: number
+                   example: 63406
+                  Scoring_Crediticio:
+                   type: integer
+                   example: 826
+                  Meses_Empleo:
+                   type: integer
+                   example: 154
+                  Num_Creditos:
+                   type: integer
+                   example: 2
+                  Ratio_Interes:
+                   type: number
+                   example: 6,18
+                  Duracion:
+                   type: integer
+                   example: 36
+                  Ratio_Deuda_Ingresos:
+                   type: number
+                   example: 0.28
+                  Estudios:
+                   type: string
+                   example: Máster
+                  Tipo_Jornada_Laboral:
+                   type: string
+                   example: Jornada completa
+                  Estado_Civil:
+                   type: string
+                   example: Casado
+                  Posesion_Hipoteca:
+                   type: integer
+                   example: 1
+                  Personas_Cargo:
+                   type: integer
+                   example: 0
+                  Proposito:
+                   type: string
+                   example: Vivienda
+                  Fiador:
+                   type: integer
+                   example: 0
+                  Impago:
+                   type: integer
+                   example: 1
+                  Prima:
+                   type: number
+                   example: 431,25
+  /clientes:
+   post:
+    summary: Crear cliente
+    description: Crea un nuevo cliente en la base de datos.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - ID
+              - Estudios
+              - Estado_Civil
+              - Proposito
+              - Tipo_Jornada_Laboral
+              - Ingresos
+              - Impago
+            properties:
+              ID:
+                type: string
+                example: A500
+              Estudios:
+                type: string
+                example: Universitarios
+              Estado_Civil:
+                type: string
+                example: Soltero
+              Proposito:
+                type: string
+                example: Coche
+              Tipo_Jornada_Laboral:
+                type: string
+                example: Completa
+              Ingresos:
+                type: number
+                example: 3000
+              Impago:
+                type: integer
+                example: 0
+    responses:
+      '201':
+        description: Cliente creado correctamente
+
+      '400':
+        description: Datos de entrada incorrectos
+
+      '409':
+        description: El cliente ya existe
