@@ -70,7 +70,6 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
 ## Endpoints
 ### / (get)
 ```json
-{
 /:
   get:
     summary: Comprobar que funciona la API
@@ -88,7 +87,6 @@ la base de datos se volverá a generar a partir del fichero de datos en el sigui
                   mensaje:
                     type: string
                     example: API funcionando
-}
 ```
 ### /clientes (get)
 ```json
